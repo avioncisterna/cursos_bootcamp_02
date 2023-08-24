@@ -1,0 +1,27 @@
+{{> navbar_inside}}
+
+<div class="presentacion">
+<h1 class="titulo">Bienvenid@</h1>
+<h1 class="usuario"><span id="firstName"></span> <span id="lastName"></span></h1>
+<p>Acá encontrarás información sobre tus cursos y sus alumnos.</p>
+</div>
+
+<script>
+  
+  async function init() {
+    // 1. Recupero el token
+    const token = localStorage.getItem('token')
+
+    // 2. Voy a buscar mis datos
+    const {data} = await axios.get('/api/my', {
+      headers: {
+        authorization: token
+      }
+    })
+
+    console.log(data)
+    document.querySelector('#firstName').innerHTML = data.firstName;
+    document.querySelector('#lastName').innerHTML = data.lastName;
+  }
+  init()
+</script>

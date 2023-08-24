@@ -1,20 +1,20 @@
 {{> navbar_outside}}
 
-<h2 class="text-primary text-center">Ingrese a nuestro sitio</h2>
 
-<div class="row">
-  <div class="col-4 offset-4">
+<h2 class="titulo text-center">Ingrese a nuestro sitio</h2>
+<div class="row formulario">
+  <div class="col-4">
     <form id="form-login">
       <div class="mb-3">
-        <label for="exampleInputEmail1" class="form-label">Email address</label>
+        <label for="exampleInputEmail1" class="form-label">Dirección de correo electrónico</label>
         <input type="email" class="form-control" id="email" aria-describedby="emailHelp" required>
-        <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
+        <div id="emailHelp" class="form-text">No compartimos información personal que te identifique.</div>
       </div>
       <div class="mb-3">
-        <label for="exampleInputPassword1" class="form-label">Password</label>
+        <label for="exampleInputPassword1" class="form-label">Contraseña</label>
         <input required type="password" class="form-control" id="password">
       </div>
-      <button type="submit" class="btn btn-primary">Entrar</button>
+      <button type="submit" class="btn btn-outline-dark">Entrar</button>
     </form>
   </div>
 </div>
@@ -33,7 +33,7 @@
     // 2. Mandamos la solicitud al servidor
     let response;
     try {
-      response = await axios.post('/api/auth/login', {
+      response = await axios.post('/api/login', {
         email: email.value,
         password: password.value
       })

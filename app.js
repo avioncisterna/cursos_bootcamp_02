@@ -9,53 +9,40 @@ const {engine} = require('express-handlebars')
 
 dotenv.config()
 
-var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
-var authRouter = require('./routes/auth');
+// ROUTERS
+var indexRouter = require('./app/routes/index');
+var authRouter = require('./app/middlewares/auth');
+var userController = require('./app/controllers/user.controller');
+var bootcampController = require('./app/controllers/bootcamp.controller');
 
 var app = express();
 
-// view engine setup
+// VIEW ENGINE SETUP
 const handlebars = exphbs.create({
   layoutsDir: path.join(__dirname, 'views'),
   partialsDir: path.join(__dirname, 'views/partials')
 });
 app.engine(".hbs", engine({extname: '.hbs'}));
 app.set("view engine", "hbs");
-app.set('views', path.join(__dirname, 'views'));
+app.set('views', path.join(__dirname, 'app/views'));
 
 
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
-// exponemos los archivos estáticos
+
+// STATICS
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'node_modules/bootstrap/dist')));
 app.use(express.static(path.join(__dirname, 'node_modules/axios/dist')));
 app.use(express.static(path.join(__dirname, 'node_modules/toastr/build')));
 app.use(express.static(path.join(__dirname, 'node_modules/jquery/dist')));
 
-
+// RUTAS
 app.use('/', indexRouter);
-app.use('/users', usersRouter);
-app.use('/api/auth', authRouter);
-
-
-// catch 404 and forward to error handler
-app.use(function(req, res, next) {
-  next(createError(404));
-});
-
-// error handler
-app.use(function(err, req, res, next) {
-  // set locals, only providing error in development
-  res.locals.message = err.message;
-  res.locals.error = req.app.get('env') === 'development' ? err : {};
-
-  // render the error page
-  res.status(err.status || 500);
-  res.render('error');
-});
+app.use('/api', authRouter);
+app.use('/api', userController);
+app.use('/api', bootcampController);
 
 module.exports = app;
